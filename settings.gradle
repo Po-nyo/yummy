@@ -1,0 +1,3 @@
+rootProject.name = 'yummy'
+
+include 'yummy-api'
