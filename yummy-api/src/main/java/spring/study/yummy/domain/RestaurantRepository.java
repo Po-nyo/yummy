@@ -1,8 +1,12 @@
 package spring.study.yummy.domain;
 
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class RestaurantRepository {
 
     private final List<Restaurant> restaurants = new ArrayList<>();
