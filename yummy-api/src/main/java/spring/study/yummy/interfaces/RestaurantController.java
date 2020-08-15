@@ -5,12 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import spring.study.yummy.application.RestaurantService;
-import spring.study.yummy.domain.MenuItem;
-import spring.study.yummy.domain.MenuItemRepository;
 import spring.study.yummy.domain.Restaurant;
-import spring.study.yummy.domain.RestaurantRepository;
 
-import java.awt.*;
 import java.util.List;
 
 @RestController

@@ -1,15 +1,11 @@
 package spring.study.yummy.application;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import spring.study.yummy.domain.*;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RestaurantServiceTests {
@@ -30,10 +26,10 @@ class RestaurantServiceTests {
     public void getRestaurant() {
         Restaurant restaurant = restaurantService.getRestaurant(1004L);
 
-        assertThat(restaurant.getId(), is(1004L));
+        assertEquals(1004L, restaurant.getId());
 
         MenuItem menuItem = restaurant.getMenuItems().get(0);
-        assertThat(menuItem.getName(), is("pasta"));
+        assertEquals("pasta", menuItem.getName());
     }
 
     @Test
@@ -41,6 +37,6 @@ class RestaurantServiceTests {
         List<Restaurant> restaurants = restaurantService.getRestaurants();
 
         Restaurant restaurant = restaurants.get(0);
-        assertThat(restaurant.getId(), is(1004L));
+        assertEquals(1004L, restaurant.getId());
     }
 }

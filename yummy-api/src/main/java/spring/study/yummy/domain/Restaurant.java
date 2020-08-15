@@ -1,7 +1,5 @@
 package spring.study.yummy.domain;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
-
 import java.util.ArrayList;
 import java.util.List;
 
