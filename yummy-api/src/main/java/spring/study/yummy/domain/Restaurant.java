@@ -34,10 +34,6 @@ public class Restaurant {
         this.address = address;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return this.id;
     }
@@ -65,5 +61,10 @@ public class Restaurant {
     public void setMenuItems(List<MenuItem> menuItems) {
         for(MenuItem menuItem : menuItems)
             addMenuItem(menuItem);
+    }
+
+    public void updateInformation(String name, String address) {
+        this.name = name;
+        this.address = address;
     }
 }
