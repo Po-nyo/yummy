@@ -1,18 +1,28 @@
 package spring.study.yummy.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Restaurant {
 
-    private long id;
+    @Id
+    @GeneratedValue
+    private Long id;
+
     private String name;
     private String address;
+
+    @Transient
     private List<MenuItem> menuItems;
 
     public Restaurant() {}
 
-    public Restaurant(long id, String name, String address) {
+    public Restaurant(Long id, String name, String address) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -24,11 +34,11 @@ public class Restaurant {
         this.address = address;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
