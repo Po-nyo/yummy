@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import spring.study.yummy.application.RestaurantService;
 import spring.study.yummy.domain.MenuItem;
 import spring.study.yummy.domain.Restaurant;
+import spring.study.yummy.domain.RestaurantNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +53,7 @@ class RestaurantControllerTest {
     }
 
     @Test
-    public void detail() throws Exception {
+    public void detailWithExists() throws Exception {
         Restaurant restaurant1 = Restaurant.builder()
                 .id(1004L)
                 .name("Yummy")
@@ -89,6 +90,16 @@ class RestaurantControllerTest {
                         "\"id\":2020")))
                 .andExpect(content().string(containsString(
                         "\"name\":\"Gimbap Heaven\"")));
+    }
+
+    @Test
+    public void detailWithNotExists() throws Exception {
+        given(restaurantService.getRestaurant(404L)).
+                willThrow(new RestaurantNotFoundException(404L));
+
+        mvc.perform(get("/restaurants/404"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("{}"));
     }
 
     @Test

@@ -4,16 +4,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import spring.study.yummy.domain.MenuItem;
-import spring.study.yummy.domain.MenuItemRepository;
-import spring.study.yummy.domain.Restaurant;
-import spring.study.yummy.domain.RestaurantRepository;
+import spring.study.yummy.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -61,13 +59,24 @@ class RestaurantServiceTest {
     }
 
     @Test
-    public void getRestaurant() {
+    public void getRestaurantWithExists() {
         Restaurant restaurant = restaurantService.getRestaurant(1004L);
 
         assertEquals(1004L, restaurant.getId());
 
         MenuItem menuItem = restaurant.getMenuItems().get(0);
         assertEquals("pasta", menuItem.getName());
+    }
+
+    @Test
+    public void getRestaurantWithNotExists() {
+        Long id = 404L;
+
+        Throwable e = assertThrows(RestaurantNotFoundException.class,
+                () -> restaurantService.getRestaurant(id));
+
+        assertEquals("Could not find restaurant id : " + id,
+                e.getMessage());
     }
 
     @Test

@@ -2,10 +2,7 @@ package spring.study.yummy.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import spring.study.yummy.domain.MenuItem;
-import spring.study.yummy.domain.MenuItemRepository;
-import spring.study.yummy.domain.Restaurant;
-import spring.study.yummy.domain.RestaurantRepository;
+import spring.study.yummy.domain.*;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
@@ -26,7 +23,9 @@ public class RestaurantService {
     }
 
     public Restaurant getRestaurant(long id) {
-        Restaurant restaurant = restaurantRepository.findById(id).orElse(null);
+        Restaurant restaurant = restaurantRepository.findById(id)
+                .orElseThrow(() -> new RestaurantNotFoundException(id));
+
         List<MenuItem> menuItems = menuItemRepository.findAllByRestaurantId(id);
         restaurant.setMenuItems(menuItems);
 
