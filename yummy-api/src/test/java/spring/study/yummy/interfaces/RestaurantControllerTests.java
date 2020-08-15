@@ -2,11 +2,13 @@ package spring.study.yummy.interfaces;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import spring.study.yummy.application.RestaurantService;
 import spring.study.yummy.domain.MenuItemRepository;
 import spring.study.yummy.domain.MenuItemRepositoryImpl;
 import spring.study.yummy.domain.RestaurantRepository;
@@ -23,6 +25,9 @@ class RestaurantControllerTests {
 
     @Autowired
     private MockMvc mvc;
+
+    @SpyBean(RestaurantService.class)
+    private RestaurantService restaurantService;
 
     @SpyBean(RestaurantRepositoryImpl.class)
     private RestaurantRepository restaurantRepository;

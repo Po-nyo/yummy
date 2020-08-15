@@ -2,7 +2,7 @@ package spring.study.yummy.domain;
 
 public class MenuItem {
 
-    private final String name;
+    private String name;
 
     public MenuItem(String name) {
         this.name = name;
