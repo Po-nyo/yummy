@@ -13,6 +13,7 @@ import spring.study.yummy.domain.MenuItem;
 import spring.study.yummy.domain.Restaurant;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
@@ -35,7 +36,11 @@ class RestaurantControllerTest {
     @Test
     public void list() throws Exception {
         List<Restaurant> restaurants = new ArrayList<>();
-        restaurants.add(new Restaurant(1004L, "Yummy", "Seoul"));
+        restaurants.add(Restaurant.builder()
+            .id(1004L)
+            .name("Yummy")
+            .address("Seoul")
+            .build());
         given(restaurantService.getRestaurants()).willReturn(restaurants);
 
         mvc.perform(get("/restaurants"))
@@ -48,9 +53,23 @@ class RestaurantControllerTest {
 
     @Test
     public void detail() throws Exception {
-        Restaurant restaurant1 = new Restaurant(1004L, "Yummy", "Seoul");
-        restaurant1.addMenuItem(new MenuItem("pasta"));
-        Restaurant restaurant2 = new Restaurant(2020L, "Gimbap Heaven", "Seoul");
+        Restaurant restaurant1 = Restaurant.builder()
+                .id(1004L)
+                .name("Yummy")
+                .address("Seoul")
+                .build();
+
+        restaurant1.setMenuItems(Arrays.asList(
+                MenuItem.builder()
+                .name("pasta")
+                .build()));
+
+        Restaurant restaurant2 = Restaurant.builder()
+                .id(2020L)
+                .name("Gimbap Heaven")
+                .address("Seoul")
+                .build();
+
         given(restaurantService.getRestaurant(1004L)).willReturn(restaurant1);
         given(restaurantService.getRestaurant(2020L)).willReturn(restaurant2);
 
@@ -74,11 +93,20 @@ class RestaurantControllerTest {
 
     @Test
     public void create() throws Exception {
+        given(restaurantService.addRestaurant(any())).will(invocation -> {
+            Restaurant restaurant = invocation.getArgument(0);
+            return Restaurant.builder()
+                    .id(1234L)
+                    .name(restaurant.getName())
+                    .address(restaurant.getAddress())
+                    .build();
+        });
+
         mvc.perform(post("/restaurants")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"Yummy2\",\"address\":\"Gangneung\"}"))
                     .andExpect(status().isCreated())
-                    .andExpect(header().string("location", "/restaurants/null"))
+                    .andExpect(header().string("location", "/restaurants/1234"))
                     .andExpect(content().string("{}"));
 
         verify(restaurantService).addRestaurant(any());

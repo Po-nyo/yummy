@@ -8,6 +8,7 @@ import spring.study.yummy.domain.Restaurant;
 import spring.study.yummy.domain.RestaurantRepository;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -29,7 +30,11 @@ public class RestaurantService {
         List<MenuItem> menuItems = menuItemRepository.findAllByRestaurantId(id);
         restaurant.setMenuItems(menuItems);
 
-        restaurant.addMenuItem(new MenuItem("pasta"));
+        restaurant.setMenuItems(Arrays.asList(
+                MenuItem.builder().
+                        name("pasta").
+                        build()));
+
         return restaurant;
     }
 

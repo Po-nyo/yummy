@@ -1,5 +1,7 @@
 package spring.study.yummy.domain;
 
+import lombok.*;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -8,9 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Restaurant {
 
     @Id
+    @Setter
     @GeneratedValue
     private Long id;
 
@@ -20,47 +27,12 @@ public class Restaurant {
     @Transient
     private List<MenuItem> menuItems;
 
-    public Restaurant() {}
-
-    public Restaurant(Long id, String name, String address) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.menuItems = new ArrayList<>();
-    }
-
-    public Restaurant(String name, String address) {
-        this.name = name;
-        this.address = address;
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getAddress() {
-        return this.address;
-    }
-
     public String getInformation() {
         return name + " in " + address;
     }
 
-    public void addMenuItem(MenuItem menuItem) {
-        this.menuItems.add(menuItem);
-    }
-
-    public List<MenuItem> getMenuItems() {
-        return this.menuItems;
-    }
-
     public void setMenuItems(List<MenuItem> menuItems) {
-        for(MenuItem menuItem : menuItems)
-            addMenuItem(menuItem);
+        this.menuItems = new ArrayList<>(menuItems);
     }
 
     public void updateInformation(String name, String address) {
