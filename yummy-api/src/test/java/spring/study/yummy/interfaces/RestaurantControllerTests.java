@@ -7,7 +7,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import spring.study.yummy.domain.MenuItemRepository;
+import spring.study.yummy.domain.MenuItemRepositoryImpl;
 import spring.study.yummy.domain.RestaurantRepository;
+import spring.study.yummy.domain.RestaurantRepositoryImpl;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -21,8 +24,11 @@ class RestaurantControllerTests {
     @Autowired
     private MockMvc mvc;
 
-    @SpyBean
+    @SpyBean(RestaurantRepositoryImpl.class)
     private RestaurantRepository restaurantRepository;
+
+    @SpyBean(MenuItemRepositoryImpl.class)
+    private MenuItemRepository menuItemRepository;
 
     @Test
     public void list() throws Exception {
@@ -41,7 +47,10 @@ class RestaurantControllerTests {
                 .andExpect(content().string(containsString(
                         "\"id\":1004")))
                 .andExpect(content().string(containsString(
-                        "\"name\":\"Yummy\"")));
+                        "\"name\":\"Yummy\"")))
+                .andExpect(content().string(containsString(
+                        "pasta"
+                )));
 
         mvc.perform(get("/restaurants/2020"))
                 .andExpect(status().isOk())
