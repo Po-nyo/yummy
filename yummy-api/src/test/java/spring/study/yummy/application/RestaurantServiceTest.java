@@ -13,7 +13,9 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 class RestaurantServiceTest {
 
@@ -25,14 +27,32 @@ class RestaurantServiceTest {
     @Mock
     private MenuItemRepository menuItemRepository;
 
+    @Mock
+    private ReviewRepository reviewRepository;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
         mockRestaurantRepository();
         mockMenuItemRepository();
+        mockReviewRepository();
 
-        this.restaurantService = new RestaurantService(this.restaurantRepository, this.menuItemRepository);
+        this.restaurantService = new RestaurantService(
+                this.restaurantRepository,
+                this.menuItemRepository,
+                this.reviewRepository);
+    }
+
+    private void mockReviewRepository() {
+        List<Review> reviews = new ArrayList<>();
+        reviews.add(Review.builder()
+            .name("Wooo")
+            .score(1)
+            .description("bad").build());
+
+        given(reviewRepository.findAllByRestaurantId(1004L))
+                .willReturn(reviews);
     }
 
     private void mockRestaurantRepository() {
@@ -62,10 +82,16 @@ class RestaurantServiceTest {
     public void getRestaurantWithExists() {
         Restaurant restaurant = restaurantService.getRestaurant(1004L);
 
+        verify(menuItemRepository).findAllByRestaurantId(eq(1004L));
+        verify(reviewRepository).findAllByRestaurantId(eq(1004L));
+
         assertEquals(1004L, restaurant.getId());
 
         MenuItem menuItem = restaurant.getMenuItems().get(0);
         assertEquals("pasta", menuItem.getName());
+
+        Review review = restaurant.getReviews().get(0);
+        assertEquals("bad", review.getDescription());
     }
 
     @Test
@@ -84,6 +110,7 @@ class RestaurantServiceTest {
         List<Restaurant> restaurants = restaurantService.getRestaurants();
 
         Restaurant restaurant = restaurants.get(0);
+
         assertEquals(1004L, restaurant.getId());
     }
 

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import spring.study.yummy.application.MenuItemService;
 import spring.study.yummy.domain.MenuItem;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,7 +19,6 @@ public class MenuItemController {
     @PatchMapping("/restaurants/{restaurant_id}/menuitems")
     public String bulkUpdate(@PathVariable("restaurant_id") Long restaurant_id,
                              @RequestBody List<MenuItem> menuItems) {
-
         menuItemService.bulkUpdate(restaurant_id, menuItems);
 
         return "";

@@ -12,6 +12,7 @@ import spring.study.yummy.application.RestaurantService;
 import spring.study.yummy.domain.MenuItem;
 import spring.study.yummy.domain.Restaurant;
 import spring.study.yummy.domain.RestaurantNotFoundException;
+import spring.study.yummy.domain.Review;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,14 +66,14 @@ class RestaurantControllerTest {
                 .name("pasta")
                 .build()));
 
-        Restaurant restaurant2 = Restaurant.builder()
-                .id(2020L)
-                .name("Gimbap Heaven")
-                .address("Seoul")
-                .build();
+        Review review = Review.builder()
+                .name("Woo")
+                .score(5)
+                .description("great").build();
+
+        restaurant1.setReviews(Arrays.asList(review));
 
         given(restaurantService.getRestaurant(1004L)).willReturn(restaurant1);
-        given(restaurantService.getRestaurant(2020L)).willReturn(restaurant2);
 
         mvc.perform(get("/restaurants/1004"))
                 .andExpect(status().isOk())
@@ -82,14 +83,10 @@ class RestaurantControllerTest {
                         "\"name\":\"Yummy\"")))
                 .andExpect(content().string(containsString(
                         "pasta"
+                )))
+                .andExpect(content().string(containsString(
+                        "great"
                 )));
-
-        mvc.perform(get("/restaurants/2020"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString(
-                        "\"id\":2020")))
-                .andExpect(content().string(containsString(
-                        "\"name\":\"Gimbap Heaven\"")));
     }
 
     @Test

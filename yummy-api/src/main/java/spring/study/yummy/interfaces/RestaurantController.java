@@ -2,7 +2,6 @@ package spring.study.yummy.interfaces;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import spring.study.yummy.application.RestaurantService;
 import spring.study.yummy.domain.Restaurant;
@@ -35,10 +34,7 @@ public class RestaurantController {
 
     @PostMapping("/restaurants")
     public ResponseEntity<?> create(@Valid @RequestBody Restaurant resource) throws URISyntaxException {
-        Restaurant restaurant = restaurantService.addRestaurant(Restaurant.builder()
-                .name(resource.getName())
-                .address(resource.getAddress())
-                .build());
+        Restaurant restaurant = restaurantService.addRestaurant(resource);
 
         URI location = new URI("/restaurants/" + restaurant.getId());
         return ResponseEntity.created(location).body("{}");
