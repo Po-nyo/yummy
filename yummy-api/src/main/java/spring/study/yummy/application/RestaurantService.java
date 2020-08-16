@@ -29,11 +29,6 @@ public class RestaurantService {
         List<MenuItem> menuItems = menuItemRepository.findAllByRestaurantId(id);
         restaurant.setMenuItems(menuItems);
 
-        restaurant.setMenuItems(Arrays.asList(
-                MenuItem.builder().
-                        name("pasta").
-                        build()));
-
         return restaurant;
     }
 
