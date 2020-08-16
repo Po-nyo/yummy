@@ -1,3 +1,5 @@
 rootProject.name = 'yummy'
 
-include 'yummy-api'
+include 'yummy-common'
+include 'yummy-admin-api'
+
