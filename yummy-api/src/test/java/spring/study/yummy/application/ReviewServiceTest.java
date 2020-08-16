@@ -7,7 +7,6 @@ import org.mockito.MockitoAnnotations;
 import spring.study.yummy.domain.Review;
 import spring.study.yummy.domain.ReviewRepository;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
