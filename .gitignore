@@ -35,3 +35,6 @@ out/
 
 ## Node js ###
 */node_modules/
+
+## Database H2 ###
+*/yummy.mv.db
