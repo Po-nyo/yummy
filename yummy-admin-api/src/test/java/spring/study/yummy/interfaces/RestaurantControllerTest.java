@@ -9,13 +9,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import spring.study.yummy.application.RestaurantService;
-import spring.study.yummy.domain.MenuItem;
 import spring.study.yummy.domain.Restaurant;
 import spring.study.yummy.domain.RestaurantNotFoundException;
-import spring.study.yummy.domain.Review;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
@@ -61,18 +58,6 @@ class RestaurantControllerTest {
                 .address("Seoul")
                 .build();
 
-        restaurant1.setMenuItems(Arrays.asList(
-                MenuItem.builder()
-                .name("pasta")
-                .build()));
-
-        Review review = Review.builder()
-                .name("Woo")
-                .score(5)
-                .description("great").build();
-
-        restaurant1.setReviews(Arrays.asList(review));
-
         given(restaurantService.getRestaurant(1004L)).willReturn(restaurant1);
 
         mvc.perform(get("/restaurants/1004"))
@@ -80,13 +65,7 @@ class RestaurantControllerTest {
                 .andExpect(content().string(containsString(
                         "\"id\":1004")))
                 .andExpect(content().string(containsString(
-                        "\"name\":\"Yummy\"")))
-                .andExpect(content().string(containsString(
-                        "pasta"
-                )))
-                .andExpect(content().string(containsString(
-                        "great"
-                )));
+                        "\"name\":\"Yummy\"")));
     }
 
     @Test

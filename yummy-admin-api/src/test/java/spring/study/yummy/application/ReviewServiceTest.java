@@ -7,7 +7,12 @@ import org.mockito.MockitoAnnotations;
 import spring.study.yummy.domain.Review;
 import spring.study.yummy.domain.ReviewRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 class ReviewServiceTest {
@@ -25,16 +30,15 @@ class ReviewServiceTest {
     }
 
     @Test
-    public void addReview() {
-        Review review = Review.builder()
-                .name("Woo")
-                .score(3)
-                .description("good")
-                .build();
+    public void getReviews() {
+        List<Review> mockReviews = new ArrayList<>();
+        mockReviews.add(Review.builder().description("Cool!").build());
 
-        reviewService.addReview(1L, review);
+        given(reviewRepository.findAll()).willReturn(mockReviews);
 
-        verify(reviewRepository).save(any());
+        List<Review> reviews = reviewService.getReviews();
+        Review review = reviews.get(0);
+
+        assertEquals("Cool!", review.getDescription());
     }
-
 }

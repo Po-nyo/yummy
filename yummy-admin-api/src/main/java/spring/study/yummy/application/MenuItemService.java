@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import spring.study.yummy.domain.MenuItem;
 import spring.study.yummy.domain.MenuItemRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,5 +31,9 @@ public class MenuItemService {
         }
         menuItem.setRestaurantId(restaurant_id);
         menuItemRepository.save(menuItem);
+    }
+
+    public List<MenuItem> getMenuItems(Long restaurant_id) {
+        return menuItemRepository.findAllByRestaurantId(restaurant_id);
     }
 }
