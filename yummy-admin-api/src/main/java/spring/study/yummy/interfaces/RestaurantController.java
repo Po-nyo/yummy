@@ -44,7 +44,8 @@ public class RestaurantController {
     public String update(@PathVariable("id") Long id, @Valid @RequestBody Restaurant resource) {
         String name = resource.getName();
         String address = resource.getAddress();
-        restaurantService.updateRestaurant(id, name, address);
+        Long categoryId = resource.getCategoryId();
+        restaurantService.updateRestaurant(id, name, address, categoryId);
 
         return "{}";
     }

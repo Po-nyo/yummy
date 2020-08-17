@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,9 @@ public class Restaurant {
     @Setter
     @GeneratedValue
     private Long id;
+
+    @NotNull
+    private Long categoryId;
 
     @NotEmpty
     private String name;
@@ -49,8 +53,9 @@ public class Restaurant {
         this.reviews = new ArrayList<>(reviews);
     }
 
-    public void updateInformation(String name, String address) {
+    public void updateInformation(String name, String address, Long categoryId) {
         this.name = name;
         this.address = address;
+        this.categoryId = categoryId;
     }
 }

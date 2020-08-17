@@ -37,6 +37,7 @@ class RestaurantServiceTest {
         List<Restaurant> restaurants = new ArrayList<>();
         Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .name("Yummy")
                 .address("Seoul")
                 .menuItems(new ArrayList<>())
@@ -96,15 +97,17 @@ class RestaurantServiceTest {
     public void updateRestaurant() {
         Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
+                .categoryId(1L)
                 .name("Yum")
                 .address("Seoul")
                 .build();
 
         given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
 
-        restaurantService.updateRestaurant(1004L, "Yummy", "Gangneung");
+        restaurantService.updateRestaurant(1004L, "Yummy", "Gangneung", 2L);
 
         assertEquals("Gangneung", restaurant.getAddress());
         assertEquals("Yummy", restaurant.getName());
+        assertEquals(2L, restaurant.getCategoryId());
     }
 }

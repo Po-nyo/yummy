@@ -40,18 +40,19 @@ class RestaurantControllerTest {
     public void list() throws Exception {
         List<Restaurant> restaurants = new ArrayList<>();
         restaurants.add(Restaurant.builder()
-            .id(1004L)
-            .name("Yummy")
-            .address("Seoul")
-            .build());
-        given(restaurantService.getRestaurants()).willReturn(restaurants);
+                .id(1004L)
+                .categoryId(1L)
+                .name("Yummy")
+                .address("Seoul")
+                .build());
+        given(restaurantService.getRestaurants("Seoul", 1L)).willReturn(restaurants);
 
-        mvc.perform(get("/restaurants"))
+        mvc.perform(get("/restaurants?region=Seoul&category=1"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString(
                         "\"id\":1004")))
                 .andExpect(content().string(containsString(
-                "\"name\":\"Yummy\"")));
+                        "\"name\":\"Yummy\"")));
     }
 
     @Test
@@ -64,8 +65,8 @@ class RestaurantControllerTest {
 
         restaurant1.setMenuItems(Arrays.asList(
                 MenuItem.builder()
-                .name("pasta")
-                .build()));
+                        .name("pasta")
+                        .build()));
 
         Review review = Review.builder()
                 .name("Woo")
