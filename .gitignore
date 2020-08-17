@@ -37,4 +37,4 @@ out/
 */node_modules/
 
 ## Database H2 ###
-data
+/data
