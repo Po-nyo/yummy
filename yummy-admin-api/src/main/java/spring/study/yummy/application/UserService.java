@@ -24,6 +24,7 @@ public class UserService {
     }
 
     public User addUser(User user) {
+        user.setLevel(1L);
         return userRepository.save(user);
     }
 
@@ -31,6 +32,14 @@ public class UserService {
         User user = userRepository.findById(id).orElse(null);
 
         user.updateInformation(name, email, level);
+
+        return user;
+    }
+
+    public User deactivateUser(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+
+        user.deactivate();
 
         return user;
     }

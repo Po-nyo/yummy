@@ -9,8 +9,10 @@ import spring.study.yummy.domain.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -83,5 +85,20 @@ class UserServiceTest {
         verify(userRepository).findById(eq(id));
 
         assertEquals("Superman", user.getName());
+    }
+
+    @Test
+    public void deactivateUser() {
+        Long id = 1004L;
+        User mockUser = User.builder().id(id).name("Superman").email("admin@example.com").level(100L).build();
+
+        given(userRepository.findById(id)).willReturn(Optional.of(mockUser));
+
+        User user = userService.deactivateUser(1004L);
+
+        verify(userRepository).findById(1004L);
+
+        assertFalse(user.isAdmin());
+        assertFalse(user.isActive());
     }
 }

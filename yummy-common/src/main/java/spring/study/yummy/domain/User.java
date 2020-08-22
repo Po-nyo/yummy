@@ -1,9 +1,6 @@
 package spring.study.yummy.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +26,7 @@ public class User {
     private String name;
 
     @NotNull
+    @Setter
     private Long level;
 
     public boolean isAdmin() {
@@ -39,5 +37,13 @@ public class User {
         this.name = name;
         this.email = email;
         this.level = level;
+    }
+
+    public boolean isActive() {
+        return level != 0;
+    }
+
+    public void deactivate() {
+        this.level = 0L;
     }
 }

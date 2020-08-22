@@ -16,5 +16,9 @@ class UserTest {
 
         assertEquals("tester", user.getName());
         assertTrue(user.isAdmin());
+        assertTrue(user.isActive());
+
+        user.deactivate();
+        assertFalse(user.isActive());
     }
 }
