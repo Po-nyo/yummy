@@ -12,7 +12,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 class UserServiceTest {
 
@@ -24,7 +26,19 @@ class UserServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        mockUserRepository();
         userService = new UserService(userRepository);
+    }
+
+    public void mockUserRepository() {
+        Long id = 1004L;
+        String name = "admin";
+        String email = "admin@example.com";
+        Long level = 100L;
+
+        User user1 = User.builder().id(id).name(name).email(email).level(level).build();
+
+        given(userRepository.findById(1004L)).willReturn(java.util.Optional.ofNullable(user1));
     }
 
     @Test
@@ -55,5 +69,19 @@ class UserServiceTest {
         User user = userService.addUser(mockUser);
 
         assertEquals(name, user.getName());
+    }
+
+    @Test
+    public void updateUser() {
+        Long id = 1004L;
+        String name = "Superman";
+        String email = "admin@example.com";
+        Long level = 100L;
+
+        User user = userService.updateUser(id, name, email, level);
+
+        verify(userRepository).findById(eq(id));
+
+        assertEquals("Superman", user.getName());
     }
 }
